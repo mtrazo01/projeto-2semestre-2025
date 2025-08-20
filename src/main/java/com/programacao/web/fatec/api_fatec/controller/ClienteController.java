@@ -23,8 +23,8 @@ public class ClienteController {
         return nome;
     }
     @PostMapping("")
-    public String createClienyye(@RequestBody Cliente cliente) {
-        return cliente.toString();
+    public Cliente createCliente(@RequestBody Cliente cliente) {
+        return cliente;
     }
     
 
