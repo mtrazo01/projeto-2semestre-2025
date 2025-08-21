@@ -26,8 +26,5 @@ public class ClienteController {
     public Cliente createCliente(@RequestBody Cliente cliente) {
         return cliente;
     }
-    
-
-
-    
+        
 }
