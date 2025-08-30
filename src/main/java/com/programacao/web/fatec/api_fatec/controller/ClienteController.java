@@ -1,8 +1,8 @@
 package com.programacao.web.fatec.api_fatec.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -12,66 +12,49 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.programacao.web.fatec.api_fatec.domain.cliente.ClienteRepository;
 import com.programacao.web.fatec.api_fatec.entities.Cliente;
 
-
+import jakarta.annotation.PostConstruct;
 
 @RestController
 @RequestMapping("/api/cliente")
 public class ClienteController {
 
-    private final List<Cliente> listaDeCliente = new ArrayList<>();
+    @Autowired
+    private ClienteRepository clienteRepository;
 
-    public ClienteController() {
-
-        listaDeCliente.add (new Cliente(1L, "João"));
-        Cliente cliente2 = new Cliente(2L, "Maria");
-        cliente2.setId(2L);
-        cliente2.setNome("Pedro");
-        listaDeCliente.add(cliente2);
-
+    @PostConstruct
+    public void init() {
+        if (clienteRepository.count() == 0) { // Só insere se não houver clientes
+            clienteRepository.save(new Cliente(null, "João Silva", "Rua A, 123"));
+            clienteRepository.save(new Cliente(null, "Maria Souza", "Av. B, 456"));
+            clienteRepository.save(new Cliente(null, "Pedro Santos", "Rua C, 789"));
+        }
     }
 
-    @GetMapping("/listarClientes")
+    @GetMapping("/listar")
     public List<Cliente> listarClientes() {
-        return listaDeCliente;
+        return clienteRepository.findAll();
     }
 
-    @GetMapping("/testeCliente1")
-    public String testeCliente() {
-        return "Teste Cliente";
-    }
-    @GetMapping("/testeCliente2/{nome}")
-    public String testeCliente2(@PathVariable String nome) {
-        return nome;
-    }
-    @PostMapping("")
-    public Cliente createCliente(@RequestBody Cliente cliente) {
-        listaDeCliente.add(cliente);
-        return cliente;
+    @PostMapping("/cadastrar")
+    public Cliente cadastrarCliente(@RequestBody Cliente cliente) {
+        return clienteRepository.save(cliente);
     }
 
-    @DeleteMapping("/{id}")
+    @PutMapping("/atualizar/{id}")
+    public Cliente atualizarCliente(@PathVariable Long id, @RequestBody Cliente cliente) {
+        cliente.setId(id);
+        return clienteRepository.save(cliente);
+    }
+
+    @DeleteMapping("/deletar/{id}")
     public String deletarCliente(@PathVariable Long id) {
-        for (Cliente cliente : listaDeCliente) {
-            if (cliente.getId().equals(id)) {
-                listaDeCliente.remove(cliente);
-                return "OK"; 
-            }
+        if (clienteRepository.existsById(id)) {
+            clienteRepository.deleteById(id);
+            return "Cliente deletado com sucesso!";
         }
-        return "Cliente não encontrado"; 
+        return "Cliente não encontrado!";
     }
-
-    @PutMapping("/{id}")
-    public String alterarCliente(@PathVariable Long id, @RequestBody Cliente entity) {
-        for (Cliente cliente : listaDeCliente) {
-            if (cliente.getId().equals(id)) {
-                cliente.setId(id);
-                cliente.setNome(entity.getNome());
-                return "Encontrou";
-            }
-        }
-        return "NÃO ENCONTRADO ID: " + id;
-    }
-        
 }
