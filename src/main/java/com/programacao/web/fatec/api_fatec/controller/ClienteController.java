@@ -26,10 +26,10 @@ public class ClienteController {
 
     @PostConstruct
     public void init() {
-        if (clienteRepository.count() == 0) { // Só insere se não houver clientes
-            clienteRepository.save(new Cliente(null, "João Silva", "Rua A, 123"));
-            clienteRepository.save(new Cliente(null, "Maria Souza", "Av. B, 456"));
-            clienteRepository.save(new Cliente(null, "Pedro Santos", "Rua C, 789"));
+        if (clienteRepository.count() == 0) {
+            clienteRepository.save(new Cliente(null, "Carlos Antônio ", "Rua A, 123"));
+            clienteRepository.save(new Cliente(null, "Mariana Matarazzo", "Av. B, 456"));
+            clienteRepository.save(new Cliente(null, "Pedro Cézar", "Rua C, 789"));
         }
     }
 
