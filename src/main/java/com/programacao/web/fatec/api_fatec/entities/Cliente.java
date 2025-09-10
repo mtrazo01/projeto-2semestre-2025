@@ -3,6 +3,7 @@ package com.programacao.web.fatec.api_fatec.entities;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -85,8 +86,9 @@ public class Cliente {
      *   }
      * }
      * 
-     * @JsonIgnoreProperties("clientes") é usado para evitar recursão infinita na serialização JSON.
-     * Permite que o objeto cidade seja incluído na resposta JSON, mas ignora o campo clientes da cidade.
+     * @JsonBackReference é usado para evitar recursão infinita na serialização JSON.
+     * Marca este lado do relacionamento como a referência de volta, que será omitida durante a serialização.
+     * Funciona em conjunto com @JsonManagedReference na entidade Cidade.
      */
     @ManyToOne
     @JoinColumn(name = "cidade_id")

@@ -18,29 +18,29 @@ Content-Type: application/json
 GET  http://localhost:8081/api/clientes/listarClientes
 
 ### Listar buscaPorIdOuNome
-GET  http://localhost:8081/api/clientes/buscaPorIdOuNome/dan
+GET  http://localhost:8081/api/clientes/buscaPorIdOuNome/xxx
 
 ### Listar buscaPorIdOuNome
 POST  http://localhost:8081/api/clientes/buscaPorIdOuNome
 Content-Type: application/json
-
 {
   "id": 3,
   "nome": "dan"
 }
 
 ### Remover cliente
-DELETE http://localhost:8081/api/clientes/5
+DELETE http://localhost:8081/api/clientes/1
 
 
 ### Alterar Cliente
-PUT http://localhost:8081/api/clientes/8
+PUT http://localhost:8081/api/clientes/5
 Content-Type: application/json
 
  {
-    "id": 4,
+    "id": 5,
     "nome": "Maria",
-    "endereco": "Rua YYYY"
+    "endereco": "Rua YYYYX",
+   "cidadeId": 15
   }
 
 ### Buscar por texto (busca em ID, nome do cliente e nome da cidade)
